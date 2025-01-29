@@ -1,0 +1,55 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Node.js-riippuvuudet (voidaan asentaa uudelleen)
+node_modules/
+package-lock.json
+
+# Build-kansiot (luodaan uudelleen)
+dist/
+build/
+
+# VSCoden asetukset
+.vscode/
+*.code-workspace
+
+# Ympäristömuuttujat (jos käytössä, esim. API-avaimet)
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE ja editorien roskatiedostot
+.DS_Store  # macOS
+Thumbs.db  # Windows
+*.log      # Logitiedostot
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Gitin pitäisi **ei seurata** Reactin kehityksen aikana syntyviä väliaikaisia tiedostoja
+.cache/
+.eslintcache
+.parcel-cache/
+
