@@ -13,7 +13,7 @@ const customIcon = new L.Icon({
 const App = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [newCoordinate, setNewCoordinate] = useState({ lat: "", lon: "" });
-  const ESP32_SERVER = "http://192.168.1.100:gps";  // Korvaa ESP32:n IP:llä
+  const ESP32_SERVER = "http://192.168.1.100:gps";  // Replace with ESP32's IP address
 
   const fetchCoordinates = async () => {
     try {
@@ -85,7 +85,7 @@ const App = () => {
           />
         </div>
 
-        {/* ✅ Muutettu: Jos Button ei ole käytössä, käytä normaalia <button>-elementtiä */}
+        {}
         <button onClick={postCoordinates} className="p-2 bg-blue-500 text-white rounded">Submit Coordinate</button>
       </div>
 
