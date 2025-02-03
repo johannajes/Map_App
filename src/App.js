@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import React, { useEffect, useState } from "react";
+import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
 
 
 const customIcon = new L.Icon({
@@ -17,10 +17,16 @@ const App = () => {
 
   const fetchCoordinates = async () => {
     try {
-      const response = await fetch(`${ESP32_SERVER}/coordinates`);
+      const response = await fetch(`${ESP32_SERVER}`);
       if (!response.ok) throw new Error("Failed to fetch coordinates");
       const data = await response.json();
-      setCoordinates(data);
+      // Object to table
+      const newCoordinates = Array.isArray(data) ? data : [data];
+      // Filter away faulty coordinates
+      const validCoordinates = newCoordinates.filter(coord =>
+        coord.lat !== undefined && coord.lon !== undefined
+      );
+      setCoordinates(validCoordinates);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
     }
