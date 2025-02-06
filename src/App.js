@@ -13,7 +13,7 @@ const customIcon = new L.Icon({
 const App = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [newCoordinate, setNewCoordinate] = useState({ lat: "", lon: "" });
-  const ESP32_SERVER = "http://192.168.1.100/gps";  // Replace with ESP32's IP address
+  const ESP32_SERVER = "http://192.168.1.1/gps";  // Replace with ESP32's IP address
 
   const fetchCoordinates = async () => {
     try {
@@ -24,7 +24,7 @@ const App = () => {
       const newCoordinates = Array.isArray(data) ? data : [data];
       // Filter away faulty coordinates
       const validCoordinates = newCoordinates.filter(coord =>
-        coord.lat !== undefined && coord.lon !== undefined
+        coord.latitude !== undefined && coord.longitude !== undefined
       );
       setCoordinates(validCoordinates);
     } catch (error) {
@@ -53,6 +53,12 @@ const App = () => {
 
   useEffect(() => {
     fetchCoordinates();
+
+    const interval = setInterval(() => {
+      fetchCoordinates();
+    }, 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -66,9 +72,9 @@ const App = () => {
             attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
           />
           {coordinates.map((coord, index) => (
-            <Marker key={index} position={[coord.lat, coord.lon]} icon={customIcon} />
+            <Marker key={index} position={[coord.latitude, coord.longitude]} icon={customIcon} />
           ))}
-          <Polyline positions={coordinates.map((coord) => [coord.lat, coord.lon])} color="blue" />
+          <Polyline positions={coordinates.map((coord) => [coord.latitude, coord.longitude])} color="blue" />
         </MapContainer>
       </div>
 
