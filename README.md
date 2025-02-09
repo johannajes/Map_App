@@ -14,8 +14,8 @@ accessible from devices on the same network.
 ---
 
 # Dependencies to install before running program
-npm install react@latest react-dom@latest
-npm install leaflet react-leaflet
+npm install react@latest react-dom@latest \
+npm install leaflet react-leaflet \
 npm install web-vitals
 
 # Getting Started with Create React App
