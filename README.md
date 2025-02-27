@@ -2,7 +2,7 @@
 # ESP32 GPS Tracker with React and Leaflet
 
 This project implements a GPS tracker using an ESP32-S3 microcontroller and a NEO-6M GPS module. 
-It was developed as part of my thesis. 
+It was developed as part of my thesis for University of Applied Sciences. 
 The ESP32 acts as a Wi-Fi-enabled server that shares GPS data in JSON format. 
 A React-based frontend using the Leaflet library visualizes the GPS location on a map, 
 accessible from devices on the same network.
@@ -13,46 +13,124 @@ accessible from devices on the same network.
 
 ---
 
-# Dependencies to install before running program
+## Features
+- **ESP32-S3**:
+  - Reads GPS data via UART from the NEO-6M module.
+  - Parses NMEA sentences to extract latitude and longitude.
+  - Hosts an HTTP server to share GPS data in JSON format.
+
+- **React Frontend**:
+  - Displays the GPS location on an interactive map using Leaflet.
+  - Automatically updates location in real-time.
+
+---
+
+## Requirements
+
+### Hardware
+- ESP32-S3 microcontroller.
+- NEO-6M GPS module.
+- USB cable for programming and power.
+
+### Software
+- ESP-IDF (ESP32 development framework).
+- Visual Studio Code with the ESP-IDF extension.
+- Node.js and npm (for React frontend).
+
+---
+
+## Setup and Usage
+
+### ESP32 Firmware
+1. Clone this repository.
+2. Connect the NEO-6M GPS module to the ESP32-S3 or ESP32:
+   - **GPS TX** to **ESP32S3 RXD2 (GPIO 18)** OR **ESP32 RX2 (GPIO 16)**
+   - **GPS RX** to **ESP32S3 TXD2 (GPIO 17)** OR **ESP32 TX2 (GPIO 17)**
+   - **VCC** and **GND** to power and ground pins on the ESP32-S3 or ESP32.
+3. Open the project in Visual Studio Code.
+4. Configure your Wi-Fi credentials and static IP in the `wifi_config.h`:
+   ```c
+   #define WIFI_SSID "your_wifi_name"
+   #define WIFI_PASS "your_wifi_password"
+   ```
+5. Build and flash the firmware:
+   ```bash
+   idf.py build
+   idf.py flash
+   idf.py monitor
+   ```
+6. Once running, the ESP32 will host a web server accessible at `http://192.168.1.100/gps` (or the static IP you configured).
+
+### React Frontend
+1. Navigate to the `react-map` directory:
+   ```bash
+   cd react-map
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Update the ESP32 server URL in `App.js`:
+   ```javascript
+   const response = await axios.get("http://192.168.1.100/gps");
+   ```
+4. Start the React development server:
+   ```bash
+   npm start
+   ```
+5. Open the frontend in a browser on a device in the same network: `http://localhost:3000`.
+
+---
+
+
+## Project Structure
+
+### ESP32 Firmware
+- **`main/main.c`**: Contains the main application logic.
+- **`main/uart_read.c`**: Handles UART communication with the GPS module.
+- **`main/http_server.c`**: Manages Wi-Fi connection and HTTP server.
+
+### React Frontend
+- **`react-map/src/App.js`**: Main component that fetches GPS data and renders the map.
+- **`react-map/src/components`**: Reusable components for the frontend.
+
+---
+
+## Dependencies
+
+### ESP32
+- ESP-IDF libraries:
+  - `esp_wifi`
+  - `esp_http_server`
+  - `driver/uart`
+
+### React
+- `react`
+- `react-leaflet`
+- `axios`
+- `leaflet`
+
+### React dependencies install commands:
+```bash
 npm install react@latest react-dom@latest \
 npm install leaflet react-leaflet \
 npm install web-vitals
+```
 
-# Getting Started with Create React App
+---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## License
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Acknowledgments
+- **ESP-IDF Framework** by Espressif Systems.
+- **React** for building the frontend.
+- **Leaflet** library for interactive maps.
+- **OpenStreetMap** for map tiles.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-
-## Learn More about React
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Feel free to contribute to this project! Submit issues on GitHub.
 
